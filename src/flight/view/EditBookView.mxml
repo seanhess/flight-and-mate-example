@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Form xmlns:mx="http://www.adobe.com/2006/mxml" width="400" height="300" xmlns:vo="flight.domains.bookstore.model.*" xmlns:bookstore="flight.domains.bookstore.*">
+	
+	<bookstore:Controller id="bookstore"/>
+	<mx:Binding source="bookstore.model.selectedBook" destination="book"/>
+
+	<vo:BookVO id="book"/>
+	
+	<vo:BookVO id="updatedBook">
+		<vo:author>{author.text}</vo:author>
+		<vo:title>{title.text}</vo:title>
+	</vo:BookVO>
+		
+	<mx:FormItem label="Title:">
+		<mx:TextInput id="title" text="{book.title}"/>
+	</mx:FormItem>
+	
+	<mx:FormItem label="Author:">
+		<mx:TextInput id="author" text="{book.author}"/>
+	</mx:FormItem>
+	
+	<mx:Button label="Update" click="bookstore.updateBook(updatedBook)"/>
+	<mx:Button label="Cancel" click="bookstore.showBook(book)"/>
+</mx:Form>

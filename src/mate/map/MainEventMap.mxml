@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EventMap xmlns="http://mate.asfusion.com/" xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:services="mate.services.*">
+	
+	<mx:Script>
+		<![CDATA[
+			
+			import mate.view.*;
+			import mate.event.*;
+			import mate.services.*;
+			import mate.manager.*;			
+			
+			import mx.events.FlexEvent;
+			import com.asfusion.mate.events.UnhandledFaultEvent;
+			
+		]]>
+	</mx:Script>
+
+	<Debugger level="{Debugger.ALL}"/>
+	
+	<services:Services id="services"/>
+	
+	<!-- INIT -->
+	<EventHandlers type="{FlexEvent.PREINITIALIZE}">
+		<ObjectBuilder generator="{BookstoreManager}"/>
+		<EventAnnouncer type="{BookEvent}" constructorArguments="{BookEvent.INDEX}"/>
+	</EventHandlers>
+	
+	
+	
+	
+	
+	<!-- Unhandled Faults -->
+	<EventHandlers type="{UnhandledFaultEvent.FAULT}">
+		<MethodInvoker generator="{ApplicationManager}" method="fault" arguments="{event.fault}"/> 
+	</EventHandlers>
+	
+	
+	
+	
+	
+	
+	<!-- BOOKS -->
+	<EventHandlers type="{BookEvent.INDEX}">
+		<HTTPServiceInvoker instance="{services.bookService}">
+			<resultHandlers>
+				<MethodInvoker generator="{Adapter}" method="getBooks" arguments="{resultObject}"/>
+				<PropertySetter generator="{BookstoreManager}" targetKey="books" source="{lastReturn}"/>
+			</resultHandlers>
+		</HTTPServiceInvoker>
+	</EventHandlers>
+
+	<EventHandlers type="{BookEvent.SHOW}" debug="true">
+		<MethodInvoker generator="{BookstoreManager}" method="showBook" arguments="{event.book}"/>		
+	</EventHandlers>
+	
+	<EventHandlers type="{BookEvent.EDIT}">
+		<MethodInvoker generator="{BookstoreManager}" method="editBook" arguments="{event.book}"/>		
+	</EventHandlers>
+	
+	<!-- In a real app, we would call a service here instead -->
+	<EventHandlers type="{BookEvent.UPDATE}">
+		<MethodInvoker generator="{BookstoreManager}" method="updateBook" arguments="{event.book}"/>
+	</EventHandlers>
+	
+	
+	
+	
+	
+	<!-- Injectors -->
+	<Injectors target="{MainView}">
+		<PropertyInjector source="{BookstoreManager}" sourceKey="books" targetKey="books"/>		
+		<PropertyInjector source="{BookstoreManager}" sourceKey="view" 	targetKey="stackIndex"/>		
+	</Injectors>
+	
+	<Injectors target="{ShowBookView}">
+		<PropertyInjector source="{BookstoreManager}" sourceKey="selectedBook" targetKey="book"/>
+	</Injectors>
+	
+	<Injectors target="{EditBookView}">
+		<PropertyInjector source="{BookstoreManager}" sourceKey="selectedBook" targetKey="book"/>
+	</Injectors>
+	
+	
+</EventMap>

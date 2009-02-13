@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" xmlns:view="mate.view.*">
+	
+	<mx:ArrayCollection id="books"/>
+	<mx:Number id="stackIndex">0</mx:Number>
+	
+	<mx:Script>
+		<![CDATA[
+			import mate.vo.BookVO;
+			import mate.event.BookEvent;
+			
+			protected function onBookClick():void
+			{
+				var event:BookEvent = new BookEvent(BookEvent.SHOW);
+					event.book = list.selectedItem as BookVO;
+					
+				dispatchEvent(event);
+			}
+		]]>
+	</mx:Script>
+	
+	
+	<mx:Label text="Mate Example" fontWeight="bold"/>
+	<mx:HBox width="100%" height="100%">
+		<mx:List id="list" height="100%" width="200" dataProvider="{books}" itemClick="onBookClick()" />
+		
+		<mx:ViewStack width="100%" height="100%" selectedIndex="{stackIndex}" backgroundColor="#FFFFFF">
+			<mx:Canvas><mx:Label text="Please select a book"/></mx:Canvas>
+			<view:ShowBookView/>
+			<view:EditBookView/>
+		</mx:ViewStack>
+	</mx:HBox>
+	
+</mx:VBox>

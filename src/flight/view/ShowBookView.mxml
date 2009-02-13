@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" width="400" height="300" xmlns:vo="flight.domains.bookstore.model.*" xmlns:bookstore="flight.domains.bookstore.*">
+
+	<bookstore:Controller id="bookstore"/>
+	<mx:Binding source="bookstore.model.selectedBook" destination="book"/>
+
+	<vo:BookVO id="book"/>
+	
+	<mx:Label text="Title: {book.title}"/>
+	<mx:Label text="Author: {book.author}"/>
+	
+	<mx:Button label="Edit" click="bookstore.editBook(book)"/>
+</mx:VBox>

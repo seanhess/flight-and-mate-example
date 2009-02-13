@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Form xmlns:mx="http://www.adobe.com/2006/mxml" width="400" height="300" xmlns:vo="mate.vo.*">
+	
+	<vo:BookVO id="book"/>
+	
+	<vo:BookVO id="updatedBook">
+		<vo:author>{author.text}</vo:author>
+		<vo:title>{title.text}</vo:title>
+	</vo:BookVO>
+	
+	<mx:Script>
+		<![CDATA[
+			import mate.event.BookEvent;
+			protected function onUpdateClick():void
+			{
+				var event:BookEvent = new BookEvent(BookEvent.UPDATE);
+					event.book = updatedBook;
+					
+				dispatchEvent(event);
+			}
+			
+			protected function onCancelClick():void
+			{
+				var event:BookEvent = new BookEvent(BookEvent.SHOW);
+					event.book = book;
+					
+				dispatchEvent(event);
+			}
+		]]>
+	</mx:Script>
+	
+	<mx:FormItem label="Title:">
+		<mx:TextInput id="title" text="{book.title}"/>
+	</mx:FormItem>
+	
+	<mx:FormItem label="Author:">
+		<mx:TextInput id="author" text="{book.author}"/>
+	</mx:FormItem>
+	
+	<mx:Button label="Update" click="onUpdateClick()"/>
+	<mx:Button label="Cancel" click="onCancelClick()"/>
+</mx:Form>

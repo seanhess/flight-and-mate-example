@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" width="400" height="300" xmlns:vo="mate.vo.*">
+	<vo:BookVO id="book"/>
+	
+	<mx:Script>
+		<![CDATA[
+			import mate.event.BookEvent;
+			protected function onEditClick():void
+			{
+				var event:BookEvent = new BookEvent(BookEvent.EDIT);
+					event.book = book;
+					
+				dispatchEvent(event);
+			}
+		]]>
+	</mx:Script>
+	
+	<mx:Label text="Title: {book.title}"/>
+	<mx:Label text="Author: {book.author}"/>
+	
+	<mx:Button label="Edit" click="onEditClick()"/>
+</mx:VBox>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" 
+	width="100%" height="100%" 
+	xmlns:config="flight.config.*" 
+	xmlns:bookstore="flight.domains.bookstore.*"
+	xmlns:view="flight.view.*"
+	creationComplete="bookstore.loadBooks()"
+	>
+
+	<mx:Script>
+		<![CDATA[
+			import flight.domains.bookstore.model.BookVO;
+		]]>
+	</mx:Script>
+	
+	<!-- Don't understand what this is -->
+	<config:Main/>
+	
+	<bookstore:Controller id="bookstore"/>
+	
+	<mx:Label text="Flight Example" fontWeight="bold"/>
+	<mx:HBox width="100%" height="100%">
+		<mx:List id="list" height="100%" width="200" 
+			dataProvider="{bookstore.model.books}" 
+			itemClick="bookstore.showBook(list.selectedItem as BookVO)" 
+		/>
+		
+		<mx:ViewStack width="100%" height="100%" selectedIndex="{bookstore.model.view}" backgroundColor="#FFFFFF">
+			<mx:Canvas><mx:Label text="Please select a book"/></mx:Canvas>
+			<view:ShowBookView/>
+			<view:EditBookView/>
+		</mx:ViewStack>
+	</mx:HBox>
+	
+</mx:VBox>
